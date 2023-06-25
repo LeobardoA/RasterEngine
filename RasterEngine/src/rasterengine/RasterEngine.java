@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package rasterengine;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -10,11 +9,25 @@ package rasterengine;
  */
 public class RasterEngine {
 
+    private static final String GAME_VERSION = "1.0.0";
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        JFrame ventana = new JFrame();
+        ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        ventana.setResizable(false);
+        ventana.setTitle("RasterEngine - version: "+GAME_VERSION);
+
+        Raster raster = new Raster();
+        ventana.add(raster);
+
+        raster.startMainLoop();
+
+        ventana.pack();
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
     }
     
 }
