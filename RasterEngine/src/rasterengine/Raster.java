@@ -28,6 +28,7 @@ public class Raster extends JPanel implements Runnable {
 
     //TIME VARIABLES
     private int tick = 0;
+    private double test = 0;
 
     //CAMERA            - NOT IMPLEMENTED YET
     
