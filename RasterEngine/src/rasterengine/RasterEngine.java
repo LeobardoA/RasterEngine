@@ -10,7 +10,7 @@ import javax.swing.WindowConstants;
 public class RasterEngine {
 
     private static final String GAME_VERSION = "1.0.0";
-    
+
     /**
      * @param args the command line arguments
      */
@@ -18,7 +18,7 @@ public class RasterEngine {
         JFrame ventana = new JFrame();
         ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setResizable(false);
-        ventana.setTitle("RasterEngine - version: "+GAME_VERSION);
+        ventana.setTitle("RasterEngine - version: " + GAME_VERSION);
 
         Raster raster = new Raster();
         ventana.add(raster);
@@ -29,5 +29,5 @@ public class RasterEngine {
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
     }
-    
+
 }
