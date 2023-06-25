@@ -9,5 +9,5 @@ package util;
  * @author 52331
  */
 public class Test {
-    
+    private int s;
 }
