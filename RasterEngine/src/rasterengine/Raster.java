@@ -18,8 +18,8 @@ public class Raster extends JPanel implements Runnable {
 
     //PROJECT SETTINGS
     private Thread mainLoop;
-    private final int FPS = 75;
-    private boolean isTesting = true;
+    private static final int FPS = 75;
+    private final boolean isTesting = true;
 
     //WINDOWS PROPERTIES
     private final int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
@@ -27,11 +27,11 @@ public class Raster extends JPanel implements Runnable {
     private final KeyHandler keyHandler = new KeyHandler();
 
     //TIME VARIABLES
+    private static final long NANO_IN_SECOND = 1_000_000_000;
+    private static final double NANO_PER_FRAME = NANO_IN_SECOND / FPS;
     private int tick = 0;
-    private double test = 0;
 
     //CAMERA            - NOT IMPLEMENTED YET
-    
     /**
      * Constructor for all objects and variables inicialization
      */
@@ -54,14 +54,16 @@ public class Raster extends JPanel implements Runnable {
     /**
      * This method should be used to update separetly the logic and position of
      * the objects
+     *
+     * @param deltaTime a factor of time that defines the difference between
+     * frames
      */
-    public void update() {
-        tick++;
+    public void update(double deltaTime) {
     }
 
     /**
      * This method should be used just to draw objects on the screen
-     * 
+     *
      * @param g The Graphics instance to draw on the screen
      */
     @Override
@@ -75,32 +77,47 @@ public class Raster extends JPanel implements Runnable {
      */
     @Override
     public void run() {
-        double drawInterval = 1000000000 / FPS;
         double delta = 0;
+        double deltaTime;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
         int drawCount = 0;
+        long tickTimer = System.nanoTime();
 
         while (mainLoop != null) {
             currentTime = System.nanoTime();
 
-            delta += (currentTime - lastTime) / drawInterval;
+            delta += (currentTime - lastTime) / NANO_PER_FRAME;
+            deltaTime = (currentTime - lastTime) / (double) NANO_IN_SECOND;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
 
             if (delta >= 1) {
-                update();
+                update(deltaTime);
                 repaint();
                 delta--;
                 drawCount++;
             }
-            if (timer >= 1000000000) {
+
+            if (timer >= NANO_IN_SECOND) {
                 if (isTesting) {
-                    System.out.println("FPS: " + drawCount);
+                    System.out.println("FPS: " + drawCount + " Tick: " + (tick + 1));
                 }
                 drawCount = 0;
                 timer = 0;
+            }
+
+            long currentTickTime = System.nanoTime();
+            long elapsedTickNanos = currentTickTime - tickTimer;
+            double elapsedTickSeconds = elapsedTickNanos / (double) NANO_IN_SECOND;
+
+            if (elapsedTickSeconds >= (1.0 / 20.0)) {
+                tick++;
+                if (tick >= 24000) {
+                    tick = 0;
+                }
+                tickTimer = currentTickTime;
             }
         }
     }
