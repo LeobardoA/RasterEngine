@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package rasterengine;
 
+import World.World;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import util.Camera;
 import util.KeyHandler;
 
 /**
@@ -31,11 +29,16 @@ public class Raster extends JPanel implements Runnable {
     private static final double NANO_PER_FRAME = NANO_IN_SECOND / FPS;
     private int tick = 0;
 
+    private World world;
+    private Camera camera;
+
     //CAMERA            - NOT IMPLEMENTED YET
     /**
      * Constructor for all objects and variables inicialization
      */
     public Raster() {
+        camera = new Camera(75, SCREEN_WIDTH, SCREEN_HEIGHT, 0.1, 1000);
+        world = new World(camera);
         this.setPreferredSize(new Dimension((int) SCREEN_WIDTH, (int) SCREEN_HEIGHT));
         this.setBackground(BACKGROUND_COLOR);
         this.setDoubleBuffered(true);
@@ -59,6 +62,10 @@ public class Raster extends JPanel implements Runnable {
      * frames
      */
     public void update(double deltaTime) {
+        System.out.println(deltaTime);
+
+        world.tick(tick);
+
     }
 
     /**
@@ -69,6 +76,8 @@ public class Raster extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        world.draw(g);
 
     }
 
@@ -112,7 +121,7 @@ public class Raster extends JPanel implements Runnable {
             long elapsedTickNanos = currentTickTime - tickTimer;
             double elapsedTickSeconds = elapsedTickNanos / (double) NANO_IN_SECOND;
 
-            if (elapsedTickSeconds >= (1.0 / 20.0)) {
+            if (elapsedTickSeconds >= (1.0 / 20.0)) {       //La variable TICK se restablece cada 20 minutos reales
                 tick++;
                 if (tick >= 24000) {
                     tick = 0;

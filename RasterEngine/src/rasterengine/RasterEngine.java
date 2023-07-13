@@ -18,7 +18,7 @@ public class RasterEngine {
         JFrame ventana = new JFrame();
         ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setResizable(false);
-        ventana.setTitle("RasterEngine - version: " + GAME_VERSION);
+        ventana.setTitle("RasterEngine - Version: " + GAME_VERSION);
 
         Raster raster = new Raster();
         ventana.add(raster);

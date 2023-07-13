@@ -94,6 +94,19 @@ public class Matrix4x4 {
         return matrix;
     }
 
+//    public static Matrix4x4 orthographic(float width, float height, float nearPlane, float farPlane) {
+//      Matrix4x4 matrix4f = new Matrix4x4();
+//      matrix4f.set(0, 0, 2.0F / width);
+//      matrix4f.set(1, 1, 2.0F / height);
+//      float f = farPlane - nearPlane;
+//      matrix4f.set(2, 2, -2.0F / f);
+//      matrix4f.set(3, 3, 1.0F);
+//      matrix4f.set(0, 3, -1.0F);
+//      matrix4f.set(1, 3, -1.0F);
+//      matrix4f.set(2, 3, -(farPlane + nearPlane) / f);
+//      return matrix4f;
+//   }
+    
     public static Matrix4x4 multiplyMatrix(Matrix4x4 m1, Matrix4x4 m2) {
         Matrix4x4 matrix = new Matrix4x4();
         for (int c = 0; c < 4; c++) {

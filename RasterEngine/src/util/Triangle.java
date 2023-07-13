@@ -1,18 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import java.awt.Color;
-import java.awt.Polygon;
 
 /**
  * A class representing a 3D triangle.
  */
 public class Triangle {
-
-    Polygon p = new Polygon();
 
     private Vect3D a, b, c;
     private Color edgeColor, fillColor;
@@ -31,13 +24,12 @@ public class Triangle {
      * @param vertex1 the first vertex of the triangle
      * @param vertex2 the second vertex of the triangle
      * @param vertex3 the third vertex of the triangle
-     * @param fill Color fill of each triangle
      */
-    public Triangle(Vect3D vertex1, Vect3D vertex2, Vect3D vertex3, Color fill) {
+    public Triangle(Vect3D vertex1, Vect3D vertex2, Vect3D vertex3) {
         a = vertex1;
         b = vertex2;
         c = vertex3;
-        fillColor = fill;
+        fillColor = Color.WHITE;
         edgeColor = Color.BLACK;
     }
 
