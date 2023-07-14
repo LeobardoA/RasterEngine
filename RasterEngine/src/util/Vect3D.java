@@ -6,7 +6,7 @@ package util;
  */
 public class Vect3D {
 
-    private double x, y, z, w;
+    public double x, y, z, w;
 
     public Vect3D() {
         x = 0;

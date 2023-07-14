@@ -20,7 +20,7 @@ public class Raster extends JPanel implements Runnable {
     private final boolean isTesting = true;
 
     //WINDOWS PROPERTIES
-    private final int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
+    public static final int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     private final KeyHandler keyHandler = new KeyHandler();
 
@@ -62,7 +62,6 @@ public class Raster extends JPanel implements Runnable {
      * frames
      */
     public void update(double deltaTime) {
-        System.out.println(deltaTime);
 
         world.tick(tick);
 
