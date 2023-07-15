@@ -9,6 +9,7 @@ public class Triangle {
 
     private Vect3D a, b, c;
     private Color edgeColor, fillColor;
+    public boolean isVisible = true;
 
     public Triangle() {
         a = new Vect3D();

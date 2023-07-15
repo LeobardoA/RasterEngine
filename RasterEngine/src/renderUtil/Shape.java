@@ -20,7 +20,7 @@ public class Shape {
     public Matrix4x4 position;
     public double originalScale;
 
-    protected ArrayList<Triangle> tris = new ArrayList<>();
+    public ArrayList<Triangle> tris = new ArrayList<>();
 
     public void rotateX(double angle) {
         double rad = Math.toRadians(angle);

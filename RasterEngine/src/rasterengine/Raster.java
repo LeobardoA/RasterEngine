@@ -16,7 +16,7 @@ public class Raster extends JPanel implements Runnable {
 
     //PROJECT SETTINGS
     private Thread mainLoop;
-    private static final int FPS = 75;
+    private static final int FPS = 150;
     private final boolean isTesting = true;
 
     //WINDOWS PROPERTIES
@@ -62,9 +62,7 @@ public class Raster extends JPanel implements Runnable {
      * frames
      */
     public void update(double deltaTime) {
-
         world.tick(tick);
-
     }
 
     /**
