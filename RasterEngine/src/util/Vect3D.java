@@ -102,71 +102,6 @@ public class Vect3D {
         return Math.sqrt(dotProduct(v, v));
     }
 
-    public static int clipping(Vect3D plane_p, Vect3D plane_n, Triangle triangle, Triangle clipped1, Triangle clipped2) {
-
-//        System.out.println(triangle);
-        double d0 = calculateDistance(plane_n, plane_p, triangle.getA());
-        double d1 = calculateDistance(plane_n, plane_p, triangle.getB());
-        double d2 = calculateDistance(plane_n, plane_p, triangle.getC());
-
-//        System.out.println("D0: " + d0 + "D1:" + d1 + " D2:" + d2);
-        Vect3D[] insidePoints = new Vect3D[3];
-        int nInsidePoints = 0;
-        Vect3D[] outsidePoints = new Vect3D[3];
-        int nOutsidePoints = 0;
-
-        if (d0 >= 0) {
-            insidePoints[nInsidePoints++] = triangle.getA();
-        } else {
-            outsidePoints[nOutsidePoints++] = triangle.getA();
-        }
-        if (d1 >= 0) {
-            insidePoints[nInsidePoints++] = triangle.getB();
-        } else {
-            outsidePoints[nOutsidePoints++] = triangle.getB();
-        }
-        if (d2 >= 0) {
-            insidePoints[nInsidePoints++] = triangle.getC();
-        } else {
-            outsidePoints[nOutsidePoints++] = triangle.getC();
-        }
-
-        if (nInsidePoints == 0) {
-            return 0;
-        }
-        if (nInsidePoints == 3) {
-            clipped1.set(triangle);
-            return 1;
-        }
-        if (nInsidePoints == 1 && nOutsidePoints == 2) {
-
-            clipped1.setFillColor(triangle.getFillColor());
-            clipped1.setA(insidePoints[0]);
-            clipped1.setB(intersectionPlane(plane_p, plane_n, insidePoints[0], outsidePoints[0]));
-            clipped1.setC(intersectionPlane(plane_p, plane_n, insidePoints[0], outsidePoints[1]));
-
-//            clipped1.setFillColor(Color.GREEN);
-            return 1;
-        }
-        if (nInsidePoints == 2 && nOutsidePoints == 1) {
-            clipped1.setFillColor(triangle.getFillColor());
-            clipped2.setFillColor(triangle.getFillColor());
-
-            clipped1.setA(insidePoints[0]);
-            clipped1.setB(insidePoints[1]);
-            clipped1.setC(intersectionPlane(plane_p, plane_n, insidePoints[0], outsidePoints[0]));
-
-            clipped2.setA(insidePoints[1]);
-            clipped2.setB(intersectionPlane(plane_p, plane_n, insidePoints[1], outsidePoints[0]));
-            clipped2.setC(clipped1.getC());
-
-//            clipped1.setFillColor(Color.RED);
-//            clipped2.setFillColor(Color.BLUE);
-            return 2;
-        }
-        return 6;
-    }
-
     public static double calculateDistance(Vect3D planeNormal, Vect3D pointInPlane, Vect3D point) {
         // Calcula el vector que conecta el punto en el plano al punto dado
         Vect3D vectorToPoint = Vect3D.sub(point, pointInPlane);
@@ -175,20 +110,6 @@ public class Vect3D {
         double distance = dotProduct(vectorToPoint, normalize(planeNormal));
 
         return distance;
-    }
-
-    public static Vect3D interpolate(double tiempoInicial, double tiempoFinal, Vect3D valorInicial, Vect3D valorDestino, double tick) {
-        double t = (tick - tiempoInicial) / (tiempoFinal - tiempoInicial);
-
-        double interpolatedX = interpolateValue(valorInicial.getX(), valorDestino.getX(), t);
-        double interpolatedY = interpolateValue(valorInicial.getY(), valorDestino.getY(), t);
-        double interpolatedZ = interpolateValue(valorInicial.getZ(), valorDestino.getZ(), t);
-
-        return new Vect3D(interpolatedX, interpolatedY, interpolatedZ);
-    }
-
-    private static double interpolateValue(double startValue, double endValue, double t) {
-        return startValue + (endValue - startValue) * t;
     }
 
     @Override
