@@ -22,7 +22,7 @@ public class Raster extends JPanel implements Runnable {
     //WINDOWS PROPERTIES
     public static final int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
     private final Color BACKGROUND_COLOR = Color.BLACK;
-    private final KeyHandler keyHandler = new KeyHandler();
+    public static final KeyHandler keyHandler = new KeyHandler();
 
     //TIME VARIABLES
     private static final long NANO_IN_SECOND = 1_000_000_000;

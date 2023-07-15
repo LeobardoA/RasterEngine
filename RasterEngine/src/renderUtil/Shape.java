@@ -22,6 +22,14 @@ public class Shape {
 
     public ArrayList<Triangle> tris = new ArrayList<>();
 
+    public Shape() {
+        this.rotateX(0);
+        this.rotateY(0);
+        this.rotateZ(0);
+        this.translate(0, 0, 0);
+        transformations = new Matrix4x4();
+    }
+
     public void rotateX(double angle) {
         double rad = Math.toRadians(angle);
         rotationX = Matrix4x4.rotationX(rad);

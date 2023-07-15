@@ -60,20 +60,20 @@ public class Block extends Shape {
         tris.add(new Triangle(v4, v5, v1));
 
         // LEFT FACES
-        tris.add(new Triangle(v0, v2, v6));
-        tris.add(new Triangle(v0, v6, v4));
+        tris.add(new Triangle(v4, v6, v7));
+        tris.add(new Triangle(v4, v7, v5));
 
         // RIGHT FACES
-        tris.add(new Triangle(v1, v5, v7));
-        tris.add(new Triangle(v1, v7, v3));
-
-        // NORTH FACES
         tris.add(new Triangle(v0, v1, v3));
         tris.add(new Triangle(v0, v3, v2));
 
+        // NORTH FACES
+        tris.add(new Triangle(v1, v5, v7));
+        tris.add(new Triangle(v1, v7, v3));
+
         // SOUTH FACES
-        tris.add(new Triangle(v4, v6, v7));
-        tris.add(new Triangle(v4, v7, v5));
+        tris.add(new Triangle(v0, v2, v6));
+        tris.add(new Triangle(v0, v6, v4));
 
         // UP FACES
         tris.add(new Triangle(v2, v3, v7));
