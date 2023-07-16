@@ -8,7 +8,8 @@ import Sound.SoundType;
 import java.util.ArrayList;
 import renderUtil.Shape;
 import renderUtil.Texture;
-import util.Quad;
+import renderUtil.TextureColor;
+import util.Triangle;
 import util.Vect3D;
 
 /**
@@ -24,11 +25,13 @@ public class Block extends Shape {
     protected final boolean ticksRandomly;
     protected final SoundType soundType;
     protected final Texture texture;
+    protected final TextureColor textureColor;
     protected final boolean blocksMovement;
 
     public Block(Block.Properties properties) {
         super();
         this.texture = properties.texture;
+        this.textureColor = properties.textureColor;
         this.blocksMovement = properties.blocksMovement;
         this.soundType = properties.soundType;
         this.lightValue = properties.lightValue;
@@ -38,7 +41,7 @@ public class Block extends Shape {
     }
 
     public void createShape() {
-        quads = new ArrayList<>();
+        tris = new ArrayList<>();
 
         // DOWN VERTS
         Vect3D v0 = new Vect3D(-1, -1, -1);
@@ -53,57 +56,65 @@ public class Block extends Shape {
         Vect3D v7 = new Vect3D(1, 1, 1);
 
         // DOWN FACES
-        quads.add(new Quad(v0, v1, v4, v5));
-//        quads.add(new Quad(v0, v0, v0, v0));
+        tris.add(new Triangle(v0, v4, v1));
+        tris.add(new Triangle(v4, v5, v1));
 
         // LEFT FACES
-        quads.add(new Quad(v4, v5, v6, v7));
-//        quads.add(new Quad(v0, v0, v0, v0));
+        tris.add(new Triangle(v4, v6, v7));
+        tris.add(new Triangle(v4, v7, v5));
 
         // RIGHT FACES
-        quads.add(new Quad(v0, v1, v2, v3));
-//        quads.add(new Quad(v0, v0, v0, v0));
+        tris.add(new Triangle(v0, v1, v3));
+        tris.add(new Triangle(v0, v3, v2));
 
         // NORTH FACES
-        quads.add(new Quad(v1, v3, v5, v7));
-//        quads.add(new Quad(v0, v0, v0, v0));
+        tris.add(new Triangle(v1, v5, v7));
+        tris.add(new Triangle(v1, v7, v3));
 
         // SOUTH FACES
-        quads.add(new Quad(v0, v2, v4, v6));
-//        quads.add(new Quad(v0, v0, v0, v0));
+        tris.add(new Triangle(v0, v2, v6));
+        tris.add(new Triangle(v0, v6, v4));
 
         // UP FACES
-        quads.add(new Quad(v2, v3, v6, v7));
-//        quads.add(new Quad(v0, v0, v0, v0));
+        tris.add(new Triangle(v2, v3, v7));
+        tris.add(new Triangle(v2, v7, v6));
     }
 
-    public void setFaces(String faces, boolean value) {
-        switch (faces) {
-            case "DOWN":
-                quads.get(0).setVisible(value);
-                break;
-            case "LEFT":
-                quads.get(1).setVisible(value);
-                break;
-            case "RIGHT":
-                quads.get(2).setVisible(value);
-                break;
-            case "NORTH":
-                quads.get(3).setVisible(value);
-                break;
-            case "SOUTH":
-                quads.get(4).setVisible(value);
-                break;
-            case "UP":
-                quads.get(5).setVisible(value);
-                break;
+    public void removeFaces(String... faces) {
+        for (int i = 0; i < faces.length; i++) {
+            switch (faces[i]) {
+                case "DOWN":
+                    tris.get(0).isVisible = false;
+                    tris.get(1).isVisible = false;
+                    break;
+                case "LEFT":
+                    tris.get(2).isVisible = false;
+                    tris.get(3).isVisible = false;
+                    break;
+                case "RIGHT":
+                    tris.get(4).isVisible = false;
+                    tris.get(5).isVisible = false;
+                    break;
+                case "NORTH":
+                    tris.get(6).isVisible = false;
+                    tris.get(7).isVisible = false;
+                    break;
+                case "SOUTH":
+                    tris.get(8).isVisible = false;
+                    tris.get(9).isVisible = false;
+                    break;
+                case "UP":
+                    tris.get(10).isVisible = false;
+                    tris.get(11).isVisible = false;
+                    break;
+            }
         }
-
     }
 
     public static class Properties {
 
         private Texture texture;
+        private TextureColor textureColor;
         private boolean blocksMovement = true;
         private SoundType soundType = null;
         private int lightValue;
@@ -111,12 +122,17 @@ public class Block extends Shape {
         private float hardness;
         private boolean ticksRandomly;
 
-        private Properties(Texture texture) {
+        private Properties(Texture texture, TextureColor textureColor) {
             this.texture = texture;
+            this.textureColor = textureColor;
         }
 
         public static Block.Properties create(Texture texture) {
-            return new Block.Properties(texture);
+            return create(texture, texture.getColor());
+        }
+
+        public static Block.Properties create(Texture texture, TextureColor textureColor) {
+            return new Block.Properties(texture, textureColor);
         }
 
         public Block.Properties doesNotBlockMovement() {

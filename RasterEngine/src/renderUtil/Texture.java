@@ -4,17 +4,13 @@
  */
 package renderUtil;
 
-import java.awt.Color;
-import util.DefaultConfig;
-
 /**
  *
  * @author avile
  */
 public class Texture {
 
-    private Color defaultColor = Color.WHITE;
-    private Color edgeColor = DefaultConfig.EDGE_COLOR;
+    private TextureColor defaultColor = TextureColor.WHITE;
 
     /**
      * if paramps are empty, could be just air
@@ -26,12 +22,8 @@ public class Texture {
         //SOON
     }
 
-    public Color getDefaultColor() {
+    public TextureColor getColor() {
         return defaultColor;
-    }
-
-    public void setDefaultColor(Color defaultColor) {
-        this.defaultColor = defaultColor;
     }
 
 }

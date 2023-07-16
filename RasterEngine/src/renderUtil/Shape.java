@@ -6,7 +6,7 @@ package renderUtil;
 
 import java.util.ArrayList;
 import util.Matrix4x4;
-import util.Quad;
+import util.Triangle;
 import util.Vect3D;
 
 /**
@@ -20,7 +20,7 @@ public class Shape {
     public Matrix4x4 position;
     public double originalScale;
 
-    public ArrayList<Quad> quads = new ArrayList<>();
+    public ArrayList<Triangle> tris = new ArrayList<>();
 
     public Shape() {
         this.rotateX(0);
@@ -56,11 +56,10 @@ public class Shape {
     public void scale(double scale) {
         if (scale != originalScale) {
             originalScale = scale;
-            for (Quad quad : quads) {
-                quad.setA(Vect3D.multiply(quad.getA(), scale));
-                quad.setB(Vect3D.multiply(quad.getB(), scale));
-                quad.setC(Vect3D.multiply(quad.getC(), scale));
-                quad.setD(Vect3D.multiply(quad.getD(), scale));
+            for (Triangle tri : tris) {
+                tri.setA(Vect3D.multiply(tri.getA(), scale));
+                tri.setB(Vect3D.multiply(tri.getB(), scale));
+                tri.setC(Vect3D.multiply(tri.getC(), scale));
             }
         }
     }
