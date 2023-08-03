@@ -94,6 +94,37 @@ public class Matrix4x4 {
         return matrix;
     }
 
+    public static Matrix4x4 matrixProjection2(double fFovDegrees, double fAspectRatio, double fNear, double fFar) {
+        double fFovRad = Math.tan(fFovDegrees * 0.5 * Math.PI / 180);
+        Matrix4x4 matrix = new Matrix4x4();
+        matrix.m[0][0] = 1 / (fAspectRatio * fFovRad) ;
+        matrix.m[1][1] = 1 / fFovRad;
+        matrix.m[2][2] = fFar / (fFar - fNear);
+        matrix.m[3][2] = (- fFar * fNear) / (fFar - fNear);
+        matrix.m[2][3] = 1;
+        matrix.m[3][3] = 0;
+        return matrix;
+    }
+
+    public static Vect3D quickMatrixProjection(Matrix4x4 matrix, Vect3D coord) {
+        Vect3D projectedCoord = new Vect3D();
+        
+        projectedCoord.setX(matrix.m[0][0] * coord.getX());
+        projectedCoord.setY(matrix.m[1][1] * coord.getY());
+        projectedCoord.setZ((matrix.m[2][2] * coord.getZ() + matrix.m[3][2] * coord.getZ()));
+        projectedCoord.setW(4);
+ 
+        if(projectedCoord.w != 0){
+            projectedCoord.x /= projectedCoord.w; 
+            projectedCoord.y /= projectedCoord.w; 
+        }
+        
+        
+        return projectedCoord;
+    }
+    
+    
+
 //    public static Matrix4x4 orthographic(float width, float height, float nearPlane, float farPlane) {
 //      Matrix4x4 matrix4f = new Matrix4x4();
 //      matrix4f.set(0, 0, 2.0F / width);

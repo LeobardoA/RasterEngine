@@ -8,6 +8,7 @@ import java.awt.Color;
 public class Triangle {
 
     private Vect3D a, b, c;
+    private Vect2D ta, tb, tc;
     private Color edgeColor, fillColor;
     public boolean isVisible = true;
 
@@ -15,6 +16,9 @@ public class Triangle {
         a = new Vect3D();
         b = new Vect3D();
         c = new Vect3D();
+        ta = new Vect2D();
+        tb = new Vect2D();
+        tc = new Vect2D();
         edgeColor = Color.BLACK;
         fillColor = Color.WHITE;
     }
@@ -30,6 +34,20 @@ public class Triangle {
         a = vertex1;
         b = vertex2;
         c = vertex3;
+        ta = new Vect2D();
+        tb = new Vect2D();
+        tc = new Vect2D();
+        fillColor = Color.WHITE;
+        edgeColor = Color.BLACK;
+    }
+    
+    public Triangle(Vect3D vertex1, Vect3D vertex2, Vect3D vertex3, Vect2D textureVertex1, Vect2D textureVertex2 , Vect2D textureVertex3) {
+        a = vertex1;
+        b = vertex2;
+        c = vertex3;
+        ta = textureVertex1;
+        tb = textureVertex2;
+        tc = textureVertex3;
         fillColor = Color.WHITE;
         edgeColor = Color.BLACK;
     }
@@ -87,6 +105,32 @@ public class Triangle {
     public void setC(Vect3D c) {
         this.c = c;
     }
+
+    public Vect2D getTa() {
+        return ta;
+    }
+
+    public void setTa(Vect2D ta) {
+        this.ta = ta;
+    }
+
+    public Vect2D getTb() {
+        return tb;
+    }
+
+    public void setTb(Vect2D tb) {
+        this.tb = tb;
+    }
+
+    public Vect2D getTc() {
+        return tc;
+    }
+
+    public void setTc(Vect2D tc) {
+        this.tc = tc;
+    }
+    
+    
 
     public void set(Triangle v) {
         this.a = v.a;

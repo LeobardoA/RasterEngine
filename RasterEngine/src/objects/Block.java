@@ -10,6 +10,7 @@ import renderUtil.Shape;
 import renderUtil.Texture;
 import renderUtil.TextureColor;
 import util.Triangle;
+import util.Vect2D;
 import util.Vect3D;
 
 /**
@@ -54,30 +55,38 @@ public class Block extends Shape {
         Vect3D v3 = new Vect3D(-1, 1, 1);
         Vect3D v6 = new Vect3D(1, 1, -1);
         Vect3D v7 = new Vect3D(1, 1, 1);
+        
+        //Texture Mapping
+        Vect2D t1 = new Vect2D(1.0, 0.0); // UP RIGHT CORNER
+        Vect2D t2 = new Vect2D(0.0, 0.0); // UP LEFT CORNER
+        Vect2D t3 = new Vect2D(0.0, 1.0); // DOWN LEFT CORNER
+        Vect2D t4 = new Vect2D(1.0, 1.0); // DOWN RIGHT CORNER
 
         // DOWN FACES
-        tris.add(new Triangle(v0, v4, v1));
-        tris.add(new Triangle(v4, v5, v1));
+        tris.add(new Triangle(v0, v4, v1, t4, t3, t2));
+        tris.add(new Triangle(v4, v5, v1, t4, t2, t1));
 
         // LEFT FACES
-        tris.add(new Triangle(v4, v6, v7));
-        tris.add(new Triangle(v4, v7, v5));
+        tris.add(new Triangle(v4, v6, v7, t4, t3, t2));
+        tris.add(new Triangle(v4, v7, v5, t4, t2, t1));
 
         // RIGHT FACES
-        tris.add(new Triangle(v0, v1, v3));
-        tris.add(new Triangle(v0, v3, v2));
+        tris.add(new Triangle(v0, v1, v3, t4, t3, t2));
+        tris.add(new Triangle(v0, v3, v2, t4, t2, t1));
 
         // NORTH FACES
-        tris.add(new Triangle(v1, v5, v7));
-        tris.add(new Triangle(v1, v7, v3));
+        tris.add(new Triangle(v1, v5, v7, t4, t3, t2));
+        tris.add(new Triangle(v1, v7, v3, t4, t2, t1));
 
         // SOUTH FACES
-        tris.add(new Triangle(v0, v2, v6));
-        tris.add(new Triangle(v0, v6, v4));
+        tris.add(new Triangle(v0, v2, v6, t4, t3, t2));
+        tris.add(new Triangle(v0, v6, v4, t4, t2, t1));
 
         // UP FACES
-        tris.add(new Triangle(v2, v3, v7));
-        tris.add(new Triangle(v2, v7, v6));
+        tris.add(new Triangle(v2, v3, v7, t4, t3, t2));
+        tris.add(new Triangle(v2, v7, v6, t4, t2, t1));
+
+        
     }
 
     public void removeFaces(String... faces) {
