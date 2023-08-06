@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 /**
  * A class representing a 3D triangle.
@@ -8,13 +9,18 @@ import java.awt.Color;
 public class Triangle {
 
     private Vect3D a, b, c;
+    private Vect2D tA, tB, tC;
     private Color edgeColor, fillColor;
+    private BufferedImage texture;
     public boolean isVisible = true;
 
     public Triangle() {
         a = new Vect3D();
         b = new Vect3D();
         c = new Vect3D();
+        tA = new Vect2D(0, 0);
+        tB = new Vect2D(0, 0);
+        tC = new Vect2D(0, 0);
         edgeColor = Color.BLACK;
         fillColor = Color.WHITE;
     }
@@ -30,6 +36,17 @@ public class Triangle {
         a = vertex1;
         b = vertex2;
         c = vertex3;
+        fillColor = Color.WHITE;
+        edgeColor = Color.BLACK;
+    }
+
+    public Triangle(Vect3D vertex1, Vect3D vertex2, Vect3D vertex3, Vect2D ta, Vect2D tb, Vect2D tc) {
+        a = vertex1;
+        b = vertex2;
+        c = vertex3;
+        tA = ta;
+        tB = tb;
+        tC = tc;
         fillColor = Color.WHITE;
         edgeColor = Color.BLACK;
     }
@@ -86,6 +103,30 @@ public class Triangle {
      */
     public void setC(Vect3D c) {
         this.c = c;
+    }
+
+    public Vect2D gettA() {
+        return tA;
+    }
+
+    public void settA(Vect2D tA) {
+        this.tA = tA;
+    }
+
+    public Vect2D gettB() {
+        return tB;
+    }
+
+    public void settB(Vect2D tB) {
+        this.tB = tB;
+    }
+
+    public Vect2D gettC() {
+        return tC;
+    }
+
+    public void settC(Vect2D tC) {
+        this.tC = tC;
     }
 
     public void set(Triangle v) {

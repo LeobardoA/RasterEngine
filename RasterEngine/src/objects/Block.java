@@ -10,6 +10,7 @@ import renderUtil.Shape;
 import renderUtil.Texture;
 import renderUtil.TextureColor;
 import util.Triangle;
+import util.Vect2D;
 import util.Vect3D;
 
 /**
@@ -55,29 +56,34 @@ public class Block extends Shape {
         Vect3D v6 = new Vect3D(1, 1, -1);
         Vect3D v7 = new Vect3D(1, 1, 1);
 
+        Vect2D u1 = new Vect2D(0, 0);
+        Vect2D u2 = new Vect2D(0, 1);
+        Vect2D u3 = new Vect2D(1, 0);
+        Vect2D u4 = new Vect2D(1, 1);
+
         // DOWN FACES
-        tris.add(new Triangle(v0, v4, v1));
-        tris.add(new Triangle(v4, v5, v1));
+        tris.add(new Triangle(v0, v4, v1, u2, u1, u3));
+        tris.add(new Triangle(v4, v5, v1, u2, u3, u4));
 
         // LEFT FACES
-        tris.add(new Triangle(v4, v6, v7));
-        tris.add(new Triangle(v4, v7, v5));
+        tris.add(new Triangle(v4, v6, v7, u2, u1, u3));
+        tris.add(new Triangle(v4, v7, v5, u2, u3, u4));
 
         // RIGHT FACES
-        tris.add(new Triangle(v0, v1, v3));
-        tris.add(new Triangle(v0, v3, v2));
+        tris.add(new Triangle(v0, v1, v3, u2, u1, u3));
+        tris.add(new Triangle(v0, v3, v2, u2, u3, u4));
 
         // NORTH FACES
-        tris.add(new Triangle(v1, v5, v7));
-        tris.add(new Triangle(v1, v7, v3));
+        tris.add(new Triangle(v1, v5, v7, u2, u1, u3));
+        tris.add(new Triangle(v1, v7, v3, u2, u3, u4));
 
         // SOUTH FACES
-        tris.add(new Triangle(v0, v2, v6));
-        tris.add(new Triangle(v0, v6, v4));
+        tris.add(new Triangle(v0, v2, v6, u2, u1, u3));
+        tris.add(new Triangle(v0, v6, v4, u2, u3, u4));
 
         // UP FACES
-        tris.add(new Triangle(v2, v3, v7));
-        tris.add(new Triangle(v2, v7, v6));
+        tris.add(new Triangle(v2, v3, v7, u2, u1, u3));
+        tris.add(new Triangle(v2, v7, v6, u2, u3, u4));
     }
 
     public void removeFaces(String... faces) {

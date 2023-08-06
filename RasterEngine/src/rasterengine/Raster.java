@@ -1,12 +1,17 @@
 package rasterengine;
 
+import World.Player;
 import World.World;
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
-import util.Camera;
 import util.KeyHandler;
+import util.MouseHandler;
 
 /**
  *
@@ -16,13 +21,14 @@ public class Raster extends JPanel implements Runnable {
 
     //PROJECT SETTINGS
     private Thread mainLoop;
-    private static final int FPS = 150;
+    private static final int FPS = 75;
     private final boolean isTesting = true;
 
     //WINDOWS PROPERTIES
     public static final int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
     private final Color BACKGROUND_COLOR = Color.BLACK;
-    public static final KeyHandler keyHandler = new KeyHandler();
+    public static final KeyHandler KEY_HANDLER = new KeyHandler();
+    public static MouseHandler mouseHandler;
 
     //TIME VARIABLES
     private static final long NANO_IN_SECOND = 1_000_000_000;
@@ -30,19 +36,20 @@ public class Raster extends JPanel implements Runnable {
     private int tick = 0;
 
     private World world;
-    private Camera camera;
+    private Player player;
 
-    //CAMERA            - NOT IMPLEMENTED YET
     /**
      * Constructor for all objects and variables inicialization
      */
     public Raster() {
-        camera = new Camera(75, SCREEN_WIDTH, SCREEN_HEIGHT, 0.1, 1000);
-        world = new World(camera);
+        player = new Player();
+        world = new World(player);
+        mouseHandler = new MouseHandler();
         this.setPreferredSize(new Dimension((int) SCREEN_WIDTH, (int) SCREEN_HEIGHT));
         this.setBackground(BACKGROUND_COLOR);
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyHandler);
+        this.addKeyListener(KEY_HANDLER);
+        this.addMouseMotionListener(mouseHandler);
         this.setFocusable(true);
     }
 

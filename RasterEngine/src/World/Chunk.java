@@ -48,24 +48,7 @@ public class Chunk {
     }
 
     public void update(int tick) {
-        if (Raster.keyHandler.rightPressed) {
-            camera.position.x -= 0.5;
-        }
-        if (Raster.keyHandler.leftPressed) {
-            camera.position.x += 0.5;
-        }
-        if (Raster.keyHandler.upPressed) {
-            camera.position.z += 0.5;
-        }
-        if (Raster.keyHandler.downPressed) {
-            camera.position.z -= 0.5;
-        }
-        if (Raster.keyHandler.spacePressed) {
-            camera.position.y += 0.5;
-        }
-        if (Raster.keyHandler.shiftPressed) {
-            camera.position.y -= 0.5;
-        }
+        
     }
 
     public void draw(Graphics g) {
@@ -169,6 +152,7 @@ public class Chunk {
                         Vect3D a = triProjected.getA();
                         Vect3D b = triProjected.getB();
                         Vect3D c = triProjected.getC();
+
                         int[] xPoints = {(int) a.getX(), (int) b.getX(), (int) c.getX()};
                         int[] yPoints = {(int) a.getY(), (int) b.getY(), (int) c.getY()};
                         TexturePaint tp = crearTexturePaint(TextureLoader.individualTextures[8], xPoints, yPoints);
