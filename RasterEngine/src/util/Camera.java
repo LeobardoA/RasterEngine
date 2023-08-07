@@ -2,6 +2,7 @@ package util;
 
 import java.awt.AWTException; 
 import java.awt.Robot;
+import rasterengine.RasterEngine;
 
 /**
  *
@@ -54,9 +55,12 @@ public final class Camera {
     }
 
     public void updateMouseDirection(int mouseX, int mouseY) {
+        System.out.println();
         
-        if(mouseX < 10 || mouseX >= this.screenWidth - 10 || mouseY < 10 || mouseY >= this.screenHeight - 10){
-            robot.mouseMove( screenWidth, screenHeight);
+        if(mouseX < 200 || mouseX >= this.screenWidth - 200 || mouseY < 200 || mouseY >= this.screenHeight - 200){
+            int width = RasterEngine.ventana.getX() + RasterEngine.ventana.getWidth() / 2;
+            int height = RasterEngine.ventana.getY() + RasterEngine.ventana.getHeight() / 2;
+            robot.mouseMove( width, height);
             lastMouseX = screenWidth;
             lastMouseY = screenHeight;
             stopMove = true;

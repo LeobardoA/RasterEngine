@@ -10,12 +10,13 @@ import javax.swing.WindowConstants;
 public class RasterEngine {
 
     private static final String GAME_VERSION = "1.0.0";
+    public static JFrame ventana;
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        JFrame ventana = new JFrame();
+        ventana = new JFrame();
         ventana.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         ventana.setResizable(false);
         ventana.setTitle("RasterEngine - Version: " + GAME_VERSION);

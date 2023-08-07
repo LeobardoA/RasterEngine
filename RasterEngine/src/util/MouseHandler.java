@@ -11,7 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import rasterengine.Raster;
+import rasterengine.RasterEngine;
 
 /**
  *
@@ -21,6 +23,7 @@ public class MouseHandler implements MouseMotionListener {
 
     public MouseHandler() {
     }
+ 
 
     @Override
     public void mouseDragged(MouseEvent e) {

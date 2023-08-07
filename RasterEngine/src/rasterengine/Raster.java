@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import util.KeyHandler;
 import util.MouseHandler;
@@ -53,6 +54,7 @@ public class Raster extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
+    
     /**
      * just the main loop
      */
