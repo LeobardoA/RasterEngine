@@ -1,5 +1,8 @@
 package util;
 
+import java.awt.AWTException; 
+import java.awt.Robot;
+
 /**
  *
  * @author avile
@@ -16,8 +19,12 @@ public final class Camera {
     public int length;
     public int screenHeight;
     public int screenWidth;
+    public int centerX;
+    public int centerY;
+    private Robot robot;
     private int lastMouseX, lastMouseY;
-    private double sensitivity = 0.001;
+    private double sensitivity = 0.005;
+    private boolean stopMove = false;
 
     public Camera(double fov, double screenWidth, double screenHeight, double nearPlane, double farPlane) {
         position = new Vect3D(0, 0, 0);
@@ -28,6 +35,16 @@ public final class Camera {
         length = (int) (screenHeight * screenWidth);
         pDepthBuffer = new double[length];
         updateViewMatrix();
+
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
+        centerX = this.screenWidth / 2;
+        centerY = this.screenHeight / 2;
+        robot.mouseMove(centerX, centerY);
     }
 
     public void updateViewMatrix() {
@@ -37,9 +54,24 @@ public final class Camera {
     }
 
     public void updateMouseDirection(int mouseX, int mouseY) {
+        
+        if(mouseX < 10 || mouseX >= this.screenWidth - 10 || mouseY < 10 || mouseY >= this.screenHeight - 10){
+            robot.mouseMove( screenWidth, screenHeight);
+            lastMouseX = screenWidth;
+            lastMouseY = screenHeight;
+            stopMove = true;
+            return;
+        }
+        
         // Calcular el cambio en la posición del ratón desde la última actualización.
         int deltaX = mouseX - lastMouseX;
         int deltaY = mouseY - lastMouseY;
+        
+        if(stopMove){
+            deltaX = 0;
+            deltaY = 0;
+            stopMove = false;
+        }
 
         // Actualizar la dirección horizontal de la cámara en función del cambio en la posición horizontal del ratón.
         fYaw += deltaX * sensitivity;
