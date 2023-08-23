@@ -4,12 +4,9 @@
  */
 package World;
 
-import java.awt.AWTException;
 import java.awt.Graphics;
-import java.awt.Robot;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import rasterengine.Raster;
+import renderer.Pipeline;
 import util.Camera;
 
 /**
@@ -19,38 +16,34 @@ import util.Camera;
 public class World {
 
     private Chunk testChunk;
-    private Player player;
+    private Camera camera;
+    private Pipeline pipe;
 
-    public World(Player player) {
-        this.player = player;
-        testChunk = new Chunk(Player.mainCamera);
+    public World() {
+        camera = new Camera();
+        camera.transform.position.z = -10;
+        camera.transform.position.y = 7;
+        camera.transform.position.x = -2;
+        pipe = new Pipeline();
+        pipe.setCamera(camera);
+        testChunk = new Chunk(pipe);
     }
 
     public void draw(Graphics g) {
+        pipe.clear();
         testChunk.draw(g);
     }
 
     public void tick(int tick) {
 
+        if(Raster.KEY_HANDLER.leftPressed){
+            camera.transform.position.x += -0.2;
+        }
+        if(Raster.KEY_HANDLER.rightPressed){
+            camera.transform.position.x += 0.2;
+        }
+        
         testChunk.update(tick);
-        if (Raster.KEY_HANDLER.rightPressed) {
-            player.moveX(0.5);
-        }
-        if (Raster.KEY_HANDLER.leftPressed) {
-            player.moveX(-0.5);
-        }
-        if (Raster.KEY_HANDLER.upPressed) {
-            player.moveZ(0.5);
-        }
-        if (Raster.KEY_HANDLER.downPressed) {
-            player.moveZ(-0.5);
-        }
-        if (Raster.KEY_HANDLER.spacePressed) {
-            player.moveY(0.5);
-        }
-        if (Raster.KEY_HANDLER.shiftPressed) {
-            player.moveY(-0.5);
-        }
     }
 
 }

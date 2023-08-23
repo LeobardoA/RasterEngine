@@ -1,18 +1,15 @@
 package rasterengine;
 
-import World.Player;
 import World.World;
-import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Robot;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
+import java.awt.image.DataBufferInt;
 import javax.swing.JPanel;
+import renderutil.DisplayRenderer;
 import util.KeyHandler;
-import util.MouseHandler;
+import util.Vector2;
 
 /**
  *
@@ -29,32 +26,29 @@ public class Raster extends JPanel implements Runnable {
     public static final int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
     private final Color BACKGROUND_COLOR = Color.BLACK;
     public static final KeyHandler KEY_HANDLER = new KeyHandler();
-    public static MouseHandler mouseHandler;
 
     //TIME VARIABLES
     private static final long NANO_IN_SECOND = 1_000_000_000;
     private static final double NANO_PER_FRAME = NANO_IN_SECOND / FPS;
     private int tick = 0;
 
+    private BufferedImage frame;
     private World world;
-    private Player player;
 
     /**
      * Constructor for all objects and variables inicialization
      */
     public Raster() {
-        player = new Player();
-        world = new World(player);
-        mouseHandler = new MouseHandler();
+        frame = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        DisplayRenderer.Initialize(SCREEN_WIDTH, SCREEN_HEIGHT, ((DataBufferInt) frame.getRaster().getDataBuffer()).getData());
+        world = new World();
         this.setPreferredSize(new Dimension((int) SCREEN_WIDTH, (int) SCREEN_HEIGHT));
         this.setBackground(BACKGROUND_COLOR);
         this.setDoubleBuffered(true);
         this.addKeyListener(KEY_HANDLER);
-        this.addMouseMotionListener(mouseHandler);
         this.setFocusable(true);
     }
 
-    
     /**
      * just the main loop
      */
@@ -85,6 +79,8 @@ public class Raster extends JPanel implements Runnable {
 
         world.draw(g);
 
+        g.drawImage(frame, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+        g.dispose();
     }
 
     /**
@@ -135,6 +131,12 @@ public class Raster extends JPanel implements Runnable {
                 tickTimer = currentTickTime;
             }
         }
+    }
+
+    public Vector2 getFrameSize() {
+
+        return new Vector2(SCREEN_WIDTH, SCREEN_HEIGHT);
+
     }
 
 }

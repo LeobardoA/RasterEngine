@@ -5,20 +5,21 @@
 package objects;
 
 import Sound.SoundType;
-import java.util.ArrayList;
-import renderUtil.Shape;
-import renderUtil.Texture;
-import renderUtil.TextureColor;
+import java.io.File;
+import renderutil.ObjLoader;
+import renderutil.Shader;
+import renderutil.Texture;
+import renderutil.Transform;
 import util.Triangle;
-import util.Vect2D;
-import util.Vect3D;
 
 /**
  *
  * @author avile
  */
-public class Block extends Shape {
+public class Block {
 
+    private static final File onlyFace = new File(Block.class.getResource("/Assets/onlyFace.obj").getFile());
+    private static final File twoFaces = new File(Block.class.getResource("/Assets/twoFaces.obj").getFile());
     private static String DIRECTION = "UP";
     protected final int lightValue;
     protected final float blockHardness;
@@ -26,92 +27,59 @@ public class Block extends Shape {
     protected final boolean ticksRandomly;
     protected final SoundType soundType;
     protected final Texture texture;
-    protected final TextureColor textureColor;
     protected final boolean blocksMovement;
+    public final Transform transform;
+    public Shader shader;
+    public Triangle[] tris;
 
     public Block(Block.Properties properties) {
         super();
         this.texture = properties.texture;
-        this.textureColor = properties.textureColor;
         this.blocksMovement = properties.blocksMovement;
         this.soundType = properties.soundType;
         this.lightValue = properties.lightValue;
         this.blockResistance = properties.resistance;
         this.blockHardness = properties.hardness;
         this.ticksRandomly = properties.ticksRandomly;
-    }
-
-    public void createShape() {
-        tris = new ArrayList<>();
-
-        // DOWN VERTS
-        Vect3D v0 = new Vect3D(-1, -1, -1);
-        Vect3D v1 = new Vect3D(-1, -1, 1);
-        Vect3D v4 = new Vect3D(1, -1, -1);
-        Vect3D v5 = new Vect3D(1, -1, 1);
-
-        // UP VERTS
-        Vect3D v2 = new Vect3D(-1, 1, -1);
-        Vect3D v3 = new Vect3D(-1, 1, 1);
-        Vect3D v6 = new Vect3D(1, 1, -1);
-        Vect3D v7 = new Vect3D(1, 1, 1);
-
-        Vect2D u1 = new Vect2D(0, 0);
-        Vect2D u2 = new Vect2D(0, 1);
-        Vect2D u3 = new Vect2D(1, 0);
-        Vect2D u4 = new Vect2D(1, 1);
-
-        // DOWN FACES
-        tris.add(new Triangle(v0, v4, v1, u2, u1, u3));
-        tris.add(new Triangle(v4, v5, v1, u2, u3, u4));
-
-        // LEFT FACES
-        tris.add(new Triangle(v4, v6, v7, u2, u1, u3));
-        tris.add(new Triangle(v4, v7, v5, u2, u3, u4));
-
-        // RIGHT FACES
-        tris.add(new Triangle(v0, v1, v3, u2, u1, u3));
-        tris.add(new Triangle(v0, v3, v2, u2, u3, u4));
-
-        // NORTH FACES
-        tris.add(new Triangle(v1, v5, v7, u2, u1, u3));
-        tris.add(new Triangle(v1, v7, v3, u2, u3, u4));
-
-        // SOUTH FACES
-        tris.add(new Triangle(v0, v2, v6, u2, u1, u3));
-        tris.add(new Triangle(v0, v6, v4, u2, u3, u4));
-
-        // UP FACES
-        tris.add(new Triangle(v2, v3, v7, u2, u1, u3));
-        tris.add(new Triangle(v2, v7, v6, u2, u3, u4));
+        this.transform = new Transform();
+        this.shader = new Shader();
+        shader.setTexture(texture);
+        switch (properties.textureFaces) {
+            case 1:
+                tris = Triangle.CreateIndexedTriangleStream(ObjLoader.Load(onlyFace));
+                break;
+            case 2:
+                tris = Triangle.CreateIndexedTriangleStream(ObjLoader.Load(twoFaces));
+                break;
+        }
     }
 
     public void removeFaces(String... faces) {
         for (int i = 0; i < faces.length; i++) {
             switch (faces[i]) {
                 case "DOWN":
-                    tris.get(0).isVisible = false;
-                    tris.get(1).isVisible = false;
-                    break;
-                case "LEFT":
-                    tris.get(2).isVisible = false;
-                    tris.get(3).isVisible = false;
-                    break;
-                case "RIGHT":
-                    tris.get(4).isVisible = false;
-                    tris.get(5).isVisible = false;
-                    break;
-                case "NORTH":
-                    tris.get(6).isVisible = false;
-                    tris.get(7).isVisible = false;
-                    break;
-                case "SOUTH":
-                    tris.get(8).isVisible = false;
-                    tris.get(9).isVisible = false;
+                    tris[3].isVisible = false;
+                    tris[9].isVisible = false;
                     break;
                 case "UP":
-                    tris.get(10).isVisible = false;
-                    tris.get(11).isVisible = false;
+                    tris[0].isVisible = false;
+                    tris[6].isVisible = false;
+                    break;
+                case "LEFT":
+                    tris[4].isVisible = false;
+                    tris[10].isVisible = false;
+                    break;
+                case "RIGHT":
+                    tris[2].isVisible = false;
+                    tris[8].isVisible = false;
+                    break;
+                case "NORTH":
+                    tris[5].isVisible = false;
+                    tris[11].isVisible = false;
+                    break;
+                case "SOUTH":
+                    tris[1].isVisible = false;
+                    tris[7].isVisible = false;
                     break;
             }
         }
@@ -120,25 +88,21 @@ public class Block extends Shape {
     public static class Properties {
 
         private Texture texture;
-        private TextureColor textureColor;
         private boolean blocksMovement = true;
         private SoundType soundType = null;
         private int lightValue;
         private float resistance;
         private float hardness;
         private boolean ticksRandomly;
+        private int textureFaces = 1;
 
-        private Properties(Texture texture, TextureColor textureColor) {
+        private Properties(Texture texture, int faces) {
             this.texture = texture;
-            this.textureColor = textureColor;
+            this.textureFaces = faces;
         }
 
-        public static Block.Properties create(Texture texture) {
-            return create(texture, texture.getColor());
-        }
-
-        public static Block.Properties create(Texture texture, TextureColor textureColor) {
-            return new Block.Properties(texture, textureColor);
+        public static Block.Properties create(Texture texture, int faces) {
+            return new Block.Properties(texture, faces);
         }
 
         public Block.Properties doesNotBlockMovement() {

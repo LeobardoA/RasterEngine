@@ -4,7 +4,6 @@
  */
 package objects;
 
-import renderUtil.Texture;
 
 /**
  *

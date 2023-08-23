@@ -1,5 +1,6 @@
 package renderUtil;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -27,6 +28,17 @@ public class TextureLoader {
                 individualTextures[y * NUM_TILES_X + x] = TEXTURES.getSubimage(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
+    }
+
+    public static BufferedImage getComplexTexture(int a, int b) {
+        BufferedImage img = new BufferedImage(TILE_SIZE * 2, TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = img.createGraphics();
+        g2d.drawImage(individualTextures[a], 0, 0, null);
+        g2d.drawImage(individualTextures[b], TILE_SIZE, 0, null);
+        g2d.dispose();
+
+        return img;
     }
 
     private static BufferedImage getTexture(String path) {

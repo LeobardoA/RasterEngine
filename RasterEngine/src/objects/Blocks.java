@@ -4,7 +4,8 @@
  */
 package objects;
 
-import renderUtil.Texture;
+import renderUtil.TextureLoader;
+import renderutil.Texture;
 
 /**
  *
@@ -12,7 +13,20 @@ import renderUtil.Texture;
  */
 public class Blocks {
 
-    public static final Block AIR = new Block(Block.Properties.create(new Texture()));
-    public static final Block STONE = new Block(Block.Properties.create(new Texture("stone")));
+    public static Block AIR() {
+        return new Block(Block.Properties.create(new Texture(), 1));
+    }
+
+    public static Block STONE() {
+        return new Block(Block.Properties.create(new Texture(TextureLoader.individualTextures[1]), 1));
+    }
+
+    public static Block DIRT() {
+        return new Block(Block.Properties.create(new Texture(TextureLoader.individualTextures[2]), 1));
+    }
+
+    public static Block WOOD() {
+        return new Block(Block.Properties.create(new Texture(TextureLoader.getComplexTexture(21, 20)), 2));
+    }
 
 }
